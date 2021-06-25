@@ -80,21 +80,22 @@ while game_on:
         break
     # print((playerX_moves))
 
-    O = playerMove(playerO, playerX,playerO_moves, playerX_moves)
-
-    for key, value in BOARD.items():
-        if key == O:
-            BOARD[key] = 'O'
-            drawBoard(BOARD)
-            playerO_moves.append(O)
-    # print(playerO_moves)
-
-    if check_if_win(playerO_moves):
-        winner = "O"
-        print(f"The winner is {winner}")
-        break
-
-    if len(playerX_moves) == 4 and winner == None:
+    if len(playerX_moves) > 4 and winner == None:
         print("The game is Tie.")
-        drawBoard(BOARD)
         break
+    else:
+        O = playerMove(playerO, playerX,playerO_moves, playerX_moves)
+
+        for key, value in BOARD.items():
+            if key == O:
+                BOARD[key] = 'O'
+                drawBoard(BOARD)
+                playerO_moves.append(O)
+        # print(playerO_moves)
+
+        if check_if_win(playerO_moves):
+            winner = "O"
+            print(f"The winner is {winner}")
+            break
+
+
