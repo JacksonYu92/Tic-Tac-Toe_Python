@@ -30,18 +30,25 @@ def drawBoard(board):
     print('\t\t\t\t\t' + board[1] + ' | ' + board[2] + ' | ' + board[3])
     # print("\n***************************************************** \n")
 
-def playerMove(player):
+def playerMove(player, opponent, player_moves, opponent_moves):
     global BOARD
     try:
-        player = int(input("\t\tChoose a position from 1~9: \n"))
+        player_position = int(input(f"\tHi {player}, Please choose a position from 1~9: \n"))
+        if player_position in opponent_moves:
+            print(f"Sorry, {opponent} already sit on that position, please choose a different position: \n")
+            player_position = int(input(f"\tHi {player}, Choose a position from 1~9: \n"))
+        elif player_position in player_moves:
+            print("Sorry, looks like you already sit on that position, please choose a different position: \n")
+            player_position = int(input(f"\tHi {player}, Choose a position from 1~9: \n"))
     except ValueError:
         print("\t\tPlease enter a number between 1 ~ 9")
-        player = int(input("\t\tChoose a position from 1~9: \n"))
+        player_position = int(input(f"\tHi {player}, Choose a position from 1~9: \n"))
     finally:
-        if player > 9 or player < 1:
+        if player_position > 9 or player_position < 1:
             print("\t\tPlease enter a number between 1 ~ 9")
-            player = int(input("\t\tChoose a position from 1~9: \n"))
-    return player
+            player_position = int(input(f"\tHi {player}, Choose a position from 1~9: \n"))
+
+    return player_position
 
 def check_if_win(moves):
     winning = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
@@ -53,11 +60,14 @@ def check_if_win(moves):
 
 playerX_moves = []
 playerO_moves = []
+playerX="X"
+playerO="O"
+
 
 game_on = True
 
 while game_on:
-    X = playerMove(playerX_moves)
+    X = playerMove(playerX,playerO,playerX_moves, playerO_moves)
     winner = None
     for key, value in BOARD.items():
         if key == X:
@@ -70,7 +80,7 @@ while game_on:
         break
     # print((playerX_moves))
 
-    O = playerMove(playerO_moves)
+    O = playerMove(playerO, playerX,playerO_moves, playerX_moves)
 
     for key, value in BOARD.items():
         if key == O:
